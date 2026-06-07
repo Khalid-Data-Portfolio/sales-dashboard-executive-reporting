@@ -1,0 +1,245 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>لوحة مبيعات تنفيذية</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="data-error-message">تعذر تحميل بيانات نموذج المبيعات. يرجى فتح المشروع من رابط الداشبورد أو تشغيله عبر خادم محلي بسيط.</div>
+    <aside class="sidebar" aria-label="التنقل">
+      <div class="brand-mark">
+        <span>مؤشر</span>
+      </div>
+      <button class="nav-item is-active" data-page="overview" type="button">
+        <span class="nav-icon">⌂</span>
+        <span>الرئيسية</span>
+      </button>
+      <button class="nav-item" data-page="sales" type="button">
+        <span class="nav-icon">↗</span>
+        <span>المبيعات</span>
+      </button>
+      <button class="nav-item" data-page="regions" type="button">
+        <span class="nav-icon">◎</span>
+        <span>المناطق</span>
+      </button>
+      <button class="nav-item" data-page="categories" type="button">
+        <span class="nav-icon">▦</span>
+        <span>الفئات</span>
+      </button>
+      <button class="nav-item" data-page="segments" type="button">
+        <span class="nav-icon">◉</span>
+        <span>الشرائح</span>
+      </button>
+      <button class="nav-item" data-page="data" type="button">
+        <span class="nav-icon">≡</span>
+        <span>البيانات</span>
+      </button>
+      <button class="nav-item" data-page="reports" type="button">
+        <span class="nav-icon">▣</span>
+        <span>التقارير</span>
+      </button>
+    </aside>
+
+    <header class="header">
+      <div class="identity">
+        <div class="seal">
+          <span>مبيعات</span>
+          <b>لوحة</b>
+        </div>
+        <div>
+          <p>بيانات مبيعات حقيقية</p>
+          <h1>لوحة متابعة أداء المبيعات والربحية</h1>
+          <small>داشبورد تنفيذي تفاعلي مبني على معاملات مبيعات حقيقية</small>
+        </div>
+      </div>
+      <div class="clock-box">
+        <span id="todayLabel">اليوم</span>
+        <strong id="clockLabel">--:--</strong>
+      </div>
+    </header>
+
+    <section class="filter-bar">
+      <button class="filter-btn is-active" data-segment="All" type="button">كل العملاء</button>
+      <div id="segmentFilters" class="segment-filters"></div>
+      <select id="yearFilter" class="time-filter" aria-label="فلتر السنة"></select>
+      <select id="monthFilter" class="time-filter" aria-label="فلتر الشهر"></select>
+      <select id="weekFilter" class="time-filter" aria-label="فلتر الأسبوع"></select>
+      <button id="clearFiltersBtn" class="utility-btn" type="button">كل الفترات</button>
+      <button id="exportPdfBtn" class="danger-btn" type="button">تصدير تقرير</button>
+      <div class="filter-status">
+        <span>الفترة</span>
+        <strong id="periodLabel">2009 - 2012</strong>
+      </div>
+    </section>
+
+    <main class="main">
+      <section class="page is-active" data-page-panel="overview">
+        <section class="kpi-grid" aria-label="Main KPIs">
+          <article class="kpi-card">
+            <span>إجمالي المبيعات</span>
+            <strong id="salesKpi">$0</strong>
+            <small id="salesSub">كل الشرائح</small>
+          </article>
+          <article class="kpi-card">
+            <span>إجمالي الربح</span>
+            <strong id="profitKpi">$0</strong>
+            <small id="profitSub">الربحية</small>
+          </article>
+          <article class="kpi-card">
+            <span>عدد الطلبات</span>
+            <strong id="ordersKpi">0</strong>
+            <small>المعاملات</small>
+          </article>
+          <article class="kpi-card">
+            <span>هامش الربح</span>
+            <strong id="marginKpi">0%</strong>
+            <small id="marginSub">نسبة الربح للمبيعات</small>
+          </article>
+          <article class="kpi-card">
+            <span>متوسط الخصم</span>
+            <strong id="discountKpi">0%</strong>
+            <small>مراقبة الخصومات</small>
+          </article>
+          <article class="kpi-card">
+            <span>الكمية المباعة</span>
+            <strong id="quantityKpi">0</strong>
+            <small>وحدات مباعة</small>
+          </article>
+        </section>
+
+        <section class="dashboard-grid">
+          <article class="panel panel-wide">
+            <header class="panel-head">
+              <h2>اتجاه المبيعات والربح شهريا</h2>
+              <span id="activeSegmentLabel">كل العملاء</span>
+            </header>
+            <svg id="trendChart" class="chart trend-chart" role="img" aria-label="رسم اتجاه المبيعات والربح شهريا"></svg>
+          </article>
+
+          <article class="panel">
+            <header class="panel-head">
+              <h2>الربح حسب المنطقة</h2>
+              <span>أفضل المناطق</span>
+            </header>
+            <div id="regionBars" class="metric-bars"></div>
+          </article>
+
+          <article class="panel">
+            <header class="panel-head">
+              <h2>مزيج الفئات</h2>
+              <span>توزيع الفئات</span>
+            </header>
+            <div id="categoryCards" class="category-cards"></div>
+          </article>
+
+          <article class="panel">
+            <header class="panel-head">
+              <h2>أثر الخصم على الربح</h2>
+              <span>شرائح الخصم</span>
+            </header>
+            <svg id="discountChart" class="chart small-chart" role="img" aria-label="Discount profit chart"></svg>
+          </article>
+
+          <article class="panel">
+            <header class="panel-head">
+              <h2>أعلى المنتجات الفرعية</h2>
+              <span>الأعلى مبيعا</span>
+            </header>
+            <ol id="topSubcategories" class="rank-list"></ol>
+          </article>
+        </section>
+      </section>
+
+      <section class="page" data-page-panel="sales">
+        <div class="page-title">
+          <h2>تحليل المبيعات</h2>
+          <p>مؤشرات شهرية تساعد العميل على رؤية النمو، التذبذب، ومواسم القوة.</p>
+        </div>
+        <article class="panel panel-full">
+          <svg id="salesPageChart" class="chart page-chart" role="img" aria-label="رسم تحليل المبيعات"></svg>
+        </article>
+      </section>
+
+      <section class="page" data-page-panel="regions">
+        <div class="page-title">
+          <h2>أداء المناطق</h2>
+          <p>مقارنة المبيعات والربح لتحديد المناطق الأعلى قيمة والأكثر احتياجا للتحسين.</p>
+        </div>
+        <div id="regionTable" class="table-panel"></div>
+      </section>
+
+      <section class="page" data-page-panel="categories">
+        <div class="page-title">
+          <h2>أداء الفئات</h2>
+          <p>تحليل الربحية حسب فئات المنتجات الرئيسية.</p>
+        </div>
+        <div id="categoryTable" class="table-panel"></div>
+      </section>
+
+      <section class="page" data-page-panel="segments">
+        <div class="page-title">
+          <h2>شرائح العملاء</h2>
+          <p>اختيار أي شريحة من الفلاتر يغير كل الأرقام والرسوم فوريا.</p>
+        </div>
+        <div id="segmentCards" class="segment-grid"></div>
+      </section>
+
+      <section class="page" data-page-panel="data">
+        <div class="page-title">
+          <h2>مصدر البيانات</h2>
+          <p>الداشبورد مبني على بيانات مبيعات تجزئة حقيقية موجودة داخل مشروع المبيعات.</p>
+        </div>
+        <article class="panel panel-full data-note">
+          <h3>نموذج معرض أعمال</h3>
+          <p>هذا النموذج مناسب لطلبات العملاء التي تطلب داشبورد احترافي يعرض المبيعات، الأرباح، المناطق، الفئات، والشرائح. يمكن تحويل نفس التصميم إلى ملف جداول أو لوحة مؤشرات أعمال أو تسليمه كصفحة ويب مستقلة.</p>
+          <div class="source-grid">
+            <span>مصدر البيانات</span><b>بيانات مبيعات تجزئة حقيقية</b>
+            <span>عدد الصفوف</span><b>8,399 معاملة</b>
+            <span>الفترة</span><b>2009 - 2012</b>
+            <span>الاستخدام</span><b>داشبورد أداء المبيعات</b>
+          </div>
+        </article>
+      </section>
+
+      <section class="page" data-page-panel="reports">
+        <div class="reports-toolbar">
+          <h2>التقارير</h2>
+          <div>
+            <button id="reportCsvBtn" class="utility-btn" type="button">تصدير جدول</button>
+            <button id="reportJsonBtn" class="utility-btn" type="button">تصدير بيانات</button>
+            <button id="reportPdfBtn" class="danger-btn" type="button">تصدير تقرير</button>
+          </div>
+        </div>
+        <section class="report-grid">
+          <article class="report-card">
+            <div class="report-icon blue">▣</div>
+            <h3>تقرير شهري شامل</h3>
+            <p>يشمل جميع المؤشرات مع أفضل المناطق والفئات والشرائح.</p>
+            <span class="report-status ready">جاهز</span>
+            <button class="link-action" data-report="monthly" type="button">اضغط للعرض ←</button>
+          </article>
+          <article class="report-card">
+            <div class="report-icon gold">▤</div>
+            <h3>تقرير أسبوعي</h3>
+            <p>ملخص الأسبوع المحدد أو كل الأسابيع عند عدم الاختيار.</p>
+            <span class="report-status weekly">أسبوعي</span>
+            <button class="link-action" data-report="weekly" type="button">اضغط للعرض ←</button>
+          </article>
+          <article class="report-card">
+            <div class="report-icon green">▥</div>
+            <h3>مقارنة المناطق</h3>
+            <p>مقارنة الأداء بين المناطق حسب المبيعات والربح والهامش.</p>
+            <span class="report-status analysis">تحليلي</span>
+            <button class="link-action" data-report="regions" type="button">اضغط للعرض ←</button>
+          </article>
+        </section>
+        <article id="reportPreview" class="report-preview"></article>
+      </section>
+    </main>
+
+    <script src="data/sales_transactions.js"></script>
+    <script src="app.js"></script>
+  </body>
+</html>
