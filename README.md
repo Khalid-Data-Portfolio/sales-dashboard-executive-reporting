@@ -1,70 +1,49 @@
-# خدمة تصميم داشبورد مبيعات احترافي
+# Professional Sales Dashboard Portfolio
 
-## فكرة المشروع
+## Overview
 
-هذا مشروع معرض أعمال لخدمة تصميم داشبورد احترافي للشركات والمتاجر وفرق المبيعات. النموذج مبني كصفحة ويب تفاعلية بأسلوب لوحة تنفيذية: شريط تنقل جانبي، فلاتر زمنية، مؤشرات أداء، رسوم بيانية، صفحة تقارير، وتصدير تقارير.
+This repository is a public portfolio case study for a professional sales dashboard. It shows how retail sales data can be transformed into a clear executive interface with KPIs, filters, charts, segmentation, regional analysis, and report views.
 
-هذه نسخة عرض فقط مخصصة لمعرض الأعمال. تم إخفاء استيراد البيانات حتى يرى العميل النموذج السابق دون استخدامه كأداة جاهزة لبياناته. عند طلب الخدمة يمكن تكييف نفس الفكرة مع بيانات العميل سواء كانت ملف جداول، ملف نصي، جداول سحابية، أو قاعدة بيانات.
+This public version is designed for portfolio viewing only. It demonstrates the final dashboard experience without exposing a reusable data-processing service.
 
-## صور من العمل
+## Dashboard Preview
 
-![نظرة عامة على الداشبورد](assets/screenshots/dashboard_overview.png)
+![Dashboard overview](assets/screenshots/dashboard_overview.png)
 
-![صفحة التقارير](assets/screenshots/reports_page.png)
+![Reports page](assets/screenshots/reports_page.png)
 
-## ماذا يحصل عليه العميل؟
+## Live Dashboard
 
-- داشبورد احترافي بألوان رسمية وسهلة القراءة.
-- فلاتر حسب السنة والشهر والأسبوع وشريحة العملاء.
-- مؤشرات مبيعات وربحية: إجمالي المبيعات، الربح، الطلبات، الهامش، الخصم، الكمية.
-- رسوم بيانية للاتجاه الشهري وتحليل الخصومات.
-- تحليل حسب المناطق، الفئات، والشرائح.
-- صفحة تقارير جاهزة: تقرير شهري، تقرير أسبوعي، مقارنة مناطق.
-- تصدير التقرير كملف بي دي إف من المتصفح، مع تصدير جدول أو بيانات.
-- تصميم قابل للتحويل إلى ملف جداول أو لوحة مؤشرات أعمال حسب طلب العميل.
-
-## لماذا هذا العمل مناسب للعملاء؟
-
-كثير من العملاء لديهم بيانات مبيعات في ملفات جداول لكن لا يستطيعون رؤية الأداء بسرعة. هذا النوع من الداشبورد يحول البيانات إلى شاشة تنفيذية واضحة تساعدهم على معرفة:
-
-- ما حجم المبيعات والربح؟
-- ما أفضل المناطق والفئات؟
-- أين توجد مشاكل الربحية؟
-- ما أثر الخصومات؟
-- كيف تغير الأداء خلال السنة أو الشهر أو الأسبوع؟
-
-## تشغيل الداشبورد محليا
-
-من جذر المشروع شغل:
-
-```bash
-python -m http.server 8091
-```
-
-ثم افتح:
+After enabling GitHub Pages, the dashboard can be viewed from the repository Pages URL:
 
 ```text
-http://127.0.0.1:8091/
+https://YOUR_USERNAME.github.io/09_interactive_sales_dashboard_service/
 ```
 
-عند رفع المشروع إلى GitHub Pages، افتح رابط المستودع مباشرة وسيتم تحويل الزائر إلى الداشبورد تلقائيا.
+The root `index.html` redirects visitors directly to the dashboard.
 
-## الملفات
+## What This Project Shows
 
-```text
-web_dashboard/
-  index.html
-  styles.css
-  app.js
-  data/
-    sales_transactions.json
-    dashboard_data.json
+- Sales, profit, orders, margin, discount, and quantity KPIs.
+- Filters by year, month, week, and customer segment.
+- Monthly sales and profit trend.
+- Regional profit comparison.
+- Product category and sub-category performance.
+- Discount impact analysis.
+- Report page with print/PDF export.
 
-assets/screenshots/
-  dashboard_overview.png
-  reports_page.png
-```
+## Public Version Boundaries
 
-## نص مختصر للخدمة
+This public repository does not include:
 
-أصمم لك داشبورد احترافي تفاعلي يعرض بيانات المبيعات والأرباح والفئات والمناطق مع فلاتر حسب السنة والشهر والأسبوع، وتقارير قابلة للتصدير كملف بي دي إف. التصميم مناسب للإدارة وأصحاب الأعمال ويحول البيانات الخام إلى قرارات واضحة.
+- client data upload
+- automated data cleaning pipeline
+- reusable import workflow
+- backend database connection
+- private implementation notes
+
+The dashboard is a completed case study and not a free self-service analytics tool.
+
+## Service Summary
+
+I build professional dashboards for sales teams, e-commerce stores, and business owners who need to turn raw sales files into clear KPIs, visual reports, and management-ready dashboards.

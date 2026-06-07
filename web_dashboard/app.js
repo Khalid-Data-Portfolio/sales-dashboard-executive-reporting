@@ -176,8 +176,6 @@ function initControls() {
   });
   byId("exportPdfBtn").addEventListener("click", () => window.print());
   byId("reportPdfBtn").addEventListener("click", () => window.print());
-  byId("reportCsvBtn").addEventListener("click", exportReportCsv);
-  byId("reportJsonBtn").addEventListener("click", exportReportJson);
   document.querySelectorAll(".link-action").forEach((button) => {
     button.addEventListener("click", () => {
       activeReport = button.dataset.report;
@@ -495,26 +493,6 @@ function renderReport(rows) {
     </div>
     <h3>${activeReport === "regions" ? "جدول المناطق" : "جدول الفترة"}</h3>
     <table><thead><tr><th>البند</th><th>المبيعات</th><th>الربح</th><th>الهامش</th></tr></thead><tbody>${tableRows}</tbody></table>`;
-}
-
-function exportReportCsv() {
-  const data = aggregate(currentRows());
-  const rows = [["المؤشر", "القيمة"], ["المبيعات", data.metrics.sales], ["الربح", data.metrics.profit], ["الطلبات", data.metrics.orders], ["الهامش", data.metrics.margin]];
-  downloadText("تقرير_داشبورد_المبيعات.csv", rows.map((row) => row.join(",")).join("\n"), "text/csv");
-}
-
-function exportReportJson() {
-  downloadText("تقرير_داشبورد_المبيعات.json", JSON.stringify({ filters: { activeSegment: labelValue(activeSegment, segmentLabels), ...dateFilters }, report: aggregate(currentRows()) }, null, 2), "application/json");
-}
-
-function downloadText(filename, content, type) {
-  const blob = new Blob([content], { type });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement("a");
-  a.href = url;
-  a.download = filename;
-  a.click();
-  URL.revokeObjectURL(url);
 }
 
 function tickClock() {
