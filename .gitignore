@@ -1,0 +1,15 @@
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.env
+.env.*
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Keep the public demo lightweight and client-safe.
+data/raw/
+private/
+*.log

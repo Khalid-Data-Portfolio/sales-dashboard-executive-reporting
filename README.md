@@ -17,7 +17,7 @@ This public version is designed for portfolio viewing only. It demonstrates the 
 After enabling GitHub Pages, the dashboard can be viewed from the repository Pages URL:
 
 ```text
-https://YOUR_USERNAME.github.io/09_interactive_sales_dashboard_service/
+https://khalid-a-m-m.github.io/09_interactive_sales_dashboard_service/
 ```
 
 The root `index.html` redirects visitors directly to the dashboard.
