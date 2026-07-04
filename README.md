@@ -12,15 +12,16 @@ This public version is designed for portfolio viewing only. It demonstrates the 
 
 ![Reports page](assets/screenshots/reports_page.png)
 
-## Live Dashboard
+## Dashboard Files
 
-After enabling GitHub Pages, the dashboard can be viewed from the repository Pages URL:
+The dashboard is included as a static web deliverable in this repository:
 
 ```text
-https://khalid-a-m-m.github.io/09_interactive_sales_dashboard_service/
+index.html
+web_dashboard/index.html
 ```
 
-The root `index.html` redirects visitors directly to the dashboard.
+A live GitHub Pages link should be added only after Pages is enabled for the public repository. Until then, the screenshots below show the client-facing dashboard experience.
 
 ## What This Project Shows
 
