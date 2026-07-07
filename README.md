@@ -21,7 +21,7 @@ index.html
 web_dashboard/index.html
 ```
 
-A live GitHub Pages link should be added only after Pages is enabled for the public repository. Until then, the screenshots below show the client-facing dashboard experience.
+The screenshots below show the client-facing dashboard experience. The same static deliverable can be hosted on GitHub Pages, Cloudflare Pages, or any standard static hosting service when a live link is required.
 
 ## What This Project Shows
 
