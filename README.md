@@ -1,50 +1,120 @@
-# Professional Sales Dashboard Portfolio
+# Executive Sales Dashboard
 
-## Overview
+A clean, interactive executive dashboard that turns retail sales transactions into clear, management-ready KPIs, trends, and reports. Built as a self-contained static web deliverable that runs in any modern browser with no server, database, or external dependencies.
 
-This repository is a public portfolio case study for a professional sales dashboard. It shows how retail sales data can be transformed into a clear executive interface with KPIs, filters, charts, segmentation, regional analysis, and report views.
+## Project Overview
 
-This public version is designed for portfolio viewing only. It demonstrates the final dashboard experience without exposing a reusable data-processing service.
+The Executive Sales Dashboard is a portfolio case study that shows how raw sales records can be transformed into a professional management interface. It presents the numbers that business owners, sales leaders, and regional managers care about on a single screen, and lets them filter the view by time period and customer segment.
 
-## Dashboard Preview
+This public version is provided for portfolio viewing. It demonstrates the finished dashboard experience using a representative retail dataset, without exposing any private client data, backend connections, or reusable processing service.
 
-![Dashboard overview](assets/screenshots/dashboard_overview.png)
+## Business Problem
+
+Most businesses already collect sales data, but it usually sits in spreadsheets that are hard to read at a glance. Leaders need quick answers to questions such as:
+
+- How much did we sell, and how much profit did we keep?
+- Which regions and categories perform best?
+- Are discounts helping or hurting margin?
+- What is the trend month over month?
+
+Without a clear dashboard, those answers take manual work and are easy to get wrong.
+
+## Dashboard Objectives
+
+- Give leadership a single, trustworthy view of sales performance.
+- Make KPIs visible at a glance and easy to filter.
+- Reveal regional and category strengths and weaknesses.
+- Show how discounts affect profitability.
+- Provide a print-ready report view for meetings.
+
+## Key KPIs
+
+| KPI | Description |
+| --- | --- |
+| Total Sales | Overall revenue across the selected period and segment. |
+| Total Profit | Absolute profit generated. |
+| Number of Orders | Count of transactions. |
+| Profit Margin | Profit as a percentage of sales. |
+| Average Discount | Mean discount applied to transactions. |
+| Quantity Sold | Total units sold. |
+
+All KPIs update instantly when filters change.
+
+## Data and Method
+
+The dashboard runs on a representative retail sales dataset of **8,399 transactions** spanning **2009 to 2012**. Each record includes order date, region, category, sub-category, customer segment, sales, profit, quantity, and discount.
+
+The data is loaded as a static JavaScript file and aggregated in the browser. No server, API, or database is involved, which keeps the deliverable portable and easy to host anywhere.
+
+## Dashboard Features
+
+- Six headline KPI cards with live subtotals.
+- Filters for year, month, week, and customer segment.
+- Monthly sales and profit trend chart.
+- Profit comparison by region.
+- Product category and sub-category performance.
+- Discount impact analysis.
+- Top-performing sub-categories ranking.
+- A dedicated reports page with print and PDF export.
+- Fully responsive layout for desktop and mobile.
+
+## Business Value
+
+The dashboard helps decision-makers move from "I think sales are up" to "sales are up 12% in the West region, driven by furniture, while discounts in the South are eroding margin." That shift supports faster, evidence-based decisions on pricing, inventory, and regional focus.
+
+## Screenshots
+
+### Dashboard overview
+
+![Executive Sales Dashboard overview](assets/executive_sales_dashboard_preview.png)
+
+### Reports page
 
 ![Reports page](assets/screenshots/reports_page.png)
 
-## Dashboard Files
+## Live Demo
 
-The dashboard is included as a static web deliverable in this repository:
+The dashboard is published as a static site and can be opened from any device:
+
+**https://khalid-data-portfolio.github.io/sales-dashboard-executive-reporting/**
+
+## Repository Structure
 
 ```text
-index.html
-web_dashboard/index.html
+index.html                      # Entry point that opens the dashboard
+web_dashboard/
+  index.html                    # Main dashboard page (RTL Arabic)
+  styles.css                    # Dashboard styling
+  app.js                        # Charts, filters, and KPI logic
+  data/
+    sales_transactions.js       # Representative sales dataset
+    dashboard_data.js           # Aggregated helper data
+assets/
+  executive_sales_dashboard_preview.png   # Full dashboard preview
+  screenshots/                  # Additional preview images
+README.md                       # This document
 ```
 
-The screenshots below show the client-facing dashboard experience. The same static deliverable can be hosted on GitHub Pages, Cloudflare Pages, or any standard static hosting service when a live link is required.
+## How to Run
 
-## What This Project Shows
+**Online:** open the Live Demo link above.
 
-- Sales, profit, orders, margin, discount, and quantity KPIs.
-- Filters by year, month, week, and customer segment.
-- Monthly sales and profit trend.
-- Regional profit comparison.
-- Product category and sub-category performance.
-- Discount impact analysis.
-- Report page with print/PDF export.
+**Locally:** because the dashboard loads its data through JavaScript, open it from a small local web server rather than directly from the file system:
 
-## Public Version Boundaries
+```bash
+cd web_dashboard
+python -m http.server 8000
+```
 
-This public repository does not include:
+Then visit `http://localhost:8000/` in your browser. (Use this only for local review; the published link above is the client-facing version.)
 
-- client data upload
-- automated data cleaning pipeline
-- reusable import workflow
-- backend database connection
-- private implementation notes
+## Privacy Note
 
-The dashboard is a completed case study and not a free self-service analytics tool.
+This public repository contains only a representative sample dataset and the dashboard interface. It does not include any real client data, credentials, private implementation notes, or backend connections. The dataset is intended for portfolio demonstration and is safe to share publicly.
 
-## Service Summary
+## Tools Used
 
-I build professional dashboards for sales teams, e-commerce stores, and business owners who need to turn raw sales files into clear KPIs, visual reports, and management-ready dashboards.
+- HTML5, CSS3, and vanilla JavaScript
+- In-browser SVG charts (no external chart library or CDN required)
+- Responsive RTL layout for Arabic
+- Hosted as a static site on GitHub Pages

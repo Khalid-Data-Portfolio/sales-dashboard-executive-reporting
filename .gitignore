@@ -13,3 +13,7 @@ Thumbs.db
 data/raw/
 private/
 *.log
+
+# Local screenshot build logs
+_shot_log.json
+assets/_shot_log.json
