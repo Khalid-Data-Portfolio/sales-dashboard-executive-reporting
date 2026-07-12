@@ -37,6 +37,7 @@ Without a clear dashboard, those answers take manual work and are easy to get wr
 | Profit Margin | Profit as a percentage of sales. |
 | Average Discount | Mean discount applied to transactions. |
 | Quantity Sold | Total units sold. |
+| Average Order Value | Typical value of a single order (sales divided by orders). |
 
 All KPIs update instantly when filters change.
 
@@ -48,8 +49,9 @@ The data is loaded as a static JavaScript file and aggregated in the browser. No
 
 ## Dashboard Features
 
-- Six headline KPI cards with live subtotals.
-- Filters for year, month, week, and customer segment.
+- Seven headline KPI cards with live subtotals.
+- Filters for period (year, month, week), region, category, and customer segment.
+- Interactive charts with hover tooltips and highlighted data points.
 - Monthly sales and profit trend chart.
 - Profit comparison by region.
 - Product category and sub-category performance.

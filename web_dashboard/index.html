@@ -66,6 +66,8 @@
       <select id="yearFilter" class="time-filter" aria-label="فلتر السنة"></select>
       <select id="monthFilter" class="time-filter" aria-label="فلتر الشهر"></select>
       <select id="weekFilter" class="time-filter" aria-label="فلتر الأسبوع"></select>
+      <select id="regionFilter" class="time-filter" aria-label="فلتر المنطقة"></select>
+      <select id="categoryFilter" class="time-filter" aria-label="فلتر الفئة"></select>
       <button id="clearFiltersBtn" class="utility-btn" type="button">كل الفترات</button>
       <button id="exportPdfBtn" class="danger-btn" type="button">تصدير تقرير</button>
       <div class="filter-status">
@@ -106,6 +108,12 @@
             <span>الكمية المباعة</span>
             <strong id="quantityKpi">0</strong>
             <small>وحدات مباعة</small>
+          </article>
+
+          <article class="kpi-card">
+            <span>متوسط قيمة الطلب</span>
+            <strong id="aovKpi">$0</strong>
+            <small>متوسط فاتورة الطلب</small>
           </article>
         </section>
 
@@ -237,6 +245,7 @@
       </section>
     </main>
 
+    <div id="chartTooltip" class="chart-tooltip" role="status" aria-live="polite"></div>
     <script src="data/sales_transactions.js"></script>
     <script src="app.js"></script>
   </body>

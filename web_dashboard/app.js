@@ -65,6 +65,8 @@ let rawRows = [];
 let activeSegment = "All";
 let activeReport = "monthly";
 let dateFilters = { year: "All", month: "All", week: "All" };
+let activeRegion = "All";
+let activeCategory = "All";
 
 const byId = (id) => document.getElementById(id);
 const unique = (rows, key) => [...new Set(rows.map((row) => row[key]).filter((value) => value !== "" && value != null))].sort((a, b) => a - b);
@@ -84,6 +86,7 @@ function bootDashboard(rows) {
   rawRows = rows.map(normalizeRow).filter(Boolean);
   initNavigation();
   initControls();
+  initTooltips();
   tickClock();
   setInterval(tickClock, 30000);
   updateDashboard();
@@ -153,6 +156,7 @@ function initNavigation() {
 function initControls() {
   renderSegmentFilters();
   renderTimeFilters();
+  renderDimensionFilters();
   document.querySelectorAll(".filter-btn").forEach((button) => {
     button.addEventListener("click", () => {
       activeSegment = button.dataset.segment;
@@ -169,9 +173,13 @@ function initControls() {
       updateDashboard();
     });
   });
+  byId("regionFilter").addEventListener("change", () => { activeRegion = byId("regionFilter").value; updateDashboard(); });
+  byId("categoryFilter").addEventListener("change", () => { activeCategory = byId("categoryFilter").value; updateDashboard(); });
   byId("clearFiltersBtn").addEventListener("click", () => {
     dateFilters = { year: "All", month: "All", week: "All" };
     activeSegment = "All";
+    activeRegion = "All";
+    activeCategory = "All";
     updateDashboard();
   });
   byId("exportPdfBtn").addEventListener("click", () => window.print());
@@ -201,6 +209,11 @@ function renderTimeFilters() {
   byId("weekFilter").innerHTML = optionList("كل الأسابيع", weeks, "أسبوع");
 }
 
+function renderDimensionFilters() {
+  byId("regionFilter").innerHTML = `<option value="All">كل المناطق</option>` + unique(rawRows, "region").map((value) => `<option value="${value}">${labelValue(value, regionLabels)}</option>`).join("");
+  byId("categoryFilter").innerHTML = `<option value="All">كل الفئات</option>` + unique(rawRows, "category").map((value) => `<option value="${value}">${labelValue(value, categoryLabels)}</option>`).join("");
+}
+
 function optionList(allLabel, values, label) {
   return `<option value="All">${allLabel}</option>${values.map((value) => `<option value="${value}">${label} ${value}</option>`).join("")}`;
 }
@@ -209,6 +222,8 @@ function syncControls() {
   byId("yearFilter").value = dateFilters.year;
   byId("monthFilter").value = dateFilters.month;
   byId("weekFilter").value = dateFilters.week;
+  byId("regionFilter").value = activeRegion;
+  byId("categoryFilter").value = activeCategory;
   document.querySelectorAll(".filter-btn").forEach((button) => {
     button.classList.toggle("is-active", button.dataset.segment === activeSegment);
   });
@@ -229,6 +244,8 @@ function currentRows() {
     if (dateFilters.year !== "All" && row.year !== Number(dateFilters.year)) return false;
     if (dateFilters.month !== "All" && row.month !== Number(dateFilters.month)) return false;
     if (dateFilters.week !== "All" && row.week !== Number(dateFilters.week)) return false;
+    if (activeRegion !== "All" && row.region !== activeRegion) return false;
+    if (activeCategory !== "All" && row.category !== activeCategory) return false;
     return true;
   });
 }
@@ -261,8 +278,10 @@ function aggregate(rows) {
     margin: 0,
     avgDiscount: rows.length ? sum(rows, "discount") / rows.length : 0,
     quantity: sum(rows, "quantity"),
+    aov: 0,
   };
   metrics.margin = metrics.sales ? metrics.profit / metrics.sales : 0;
+  metrics.aov = metrics.orders ? metrics.sales / metrics.orders : 0;
   return {
     metrics,
     monthly: groupTime(rows, "month"),
@@ -329,6 +348,7 @@ function renderKpis(metrics) {
   byId("marginKpi").textContent = formatPercent.format(metrics.margin);
   byId("discountKpi").textContent = formatPercent.format(metrics.avgDiscount);
   byId("quantityKpi").textContent = formatNumber.format(metrics.quantity);
+  byId("aovKpi").textContent = formatMoney.format(metrics.aov);
 }
 
 function renderCurrentPage(rows) {
@@ -380,6 +400,7 @@ function drawTrend(elementId, rows, options = {}) {
       return `<text class="chart-label" x="${x(i)}" y="${height - 14}" text-anchor="middle">${row.month}</text>`;
     })
     .join("");
+  const dots = rows.map((row, i) => `<circle class="dot" cx="${x(i)}" cy="${y(row.sales)}" r="3.5" data-tip="${row.month}&#10;مبيعات: ${formatMoney.format(row.sales)}&#10;ربح: ${formatMoney.format(row.profit)}"></circle>`).join("");
   svg.setAttribute("viewBox", `0 0 ${width} ${height}`);
   svg.innerHTML = `
     ${grid}
@@ -388,6 +409,7 @@ function drawTrend(elementId, rows, options = {}) {
     <path class="line-profit" d="${profitLine}"></path>
     <line class="axis" x1="${pad.left}" x2="${pad.left}" y1="${pad.top}" y2="${pad.top + innerH}"></line>
     <line class="axis" x1="${pad.left}" x2="${pad.left + innerW}" y1="${pad.top + innerH}" y2="${pad.top + innerH}"></line>
+    ${dots}
     ${labels}
     <text class="chart-label" x="${pad.left + 8}" y="${pad.top + 14}">المبيعات</text>
     <text class="chart-label" x="${pad.left + 88}" y="${pad.top + 14}" fill="#f29d38">الربح ×5</text>`;
@@ -401,7 +423,7 @@ function renderRegionBars(rows) {
       const width = Math.max(4, (Math.abs(row.profit) / max) * 100);
       const color = row.profit < 0 ? "var(--red)" : "var(--green)";
       const name = labelValue(row.name, regionLabels);
-      return `<div class="bar-row"><label title="${name}">${name}</label><span class="bar-track"><span class="bar-fill" style="width:${width}%;--bar-color:${color}"></span></span><strong>${formatMoney.format(row.profit)}</strong></div>`;
+      return `<div class="bar-row" data-tip="${name}&#10;ربح: ${formatMoney.format(row.profit)}"><label title="${name}">${name}</label><span class="bar-track"><span class="bar-fill" style="width:${width}%;--bar-color:${color}"></span></span><strong>${formatMoney.format(row.profit)}</strong></div>`;
     })
     .join("");
 }
@@ -411,7 +433,8 @@ function renderCategoryCards(rows) {
     .slice(0, 4)
     .map((row) => {
       const margin = row.sales ? row.profit / row.sales : 0;
-      return `<article class="category-card"><header><h3>${labelValue(row.name, categoryLabels)}</h3><b>${formatPercent.format(margin)}</b></header><span>المبيعات: ${formatMoney.format(row.sales)}</span><br><span>الربح: ${formatMoney.format(row.profit)}</span></article>`;
+      const name = labelValue(row.name, categoryLabels);
+      return `<article class="category-card" data-tip="${name}&#10;مبيعات: ${formatMoney.format(row.sales)}&#10;ربح: ${formatMoney.format(row.profit)}&#10;هامش: ${formatPercent.format(margin)}"><header><h3>${name}</h3><b>${formatPercent.format(margin)}</b></header><span>المبيعات: ${formatMoney.format(row.sales)}</span><br><span>الربح: ${formatMoney.format(row.profit)}</span></article>`;
     })
     .join("");
 }
@@ -434,7 +457,7 @@ function drawDiscount(elementId, rows) {
       const h = (Math.abs(row.profit) / max) * (innerH / 2);
       const y = row.profit >= 0 ? zeroY - h : zeroY;
       const fill = row.profit >= 0 ? "var(--green)" : "var(--red)";
-      return `<rect x="${x}" y="${y}" width="${barW}" height="${h}" rx="5" fill="${fill}"></rect><text class="chart-label" x="${x + barW / 2}" y="${height - 14}" text-anchor="middle">${row.bucket}</text>`;
+       return `<rect x="${x}" y="${y}" width="${barW}" height="${h}" rx="5" fill="${fill}" data-tip="${row.bucket}&#10;مبيعات: ${formatMoney.format(row.sales)}&#10;ربح: ${formatMoney.format(row.profit)}"></rect><text class="chart-label" x="${x + barW / 2}" y="${height - 14}" text-anchor="middle">${row.bucket}</text>`;
     })
     .join("");
   svg.setAttribute("viewBox", `0 0 ${width} ${height}`);
@@ -445,7 +468,7 @@ function renderRanks(rows) {
   byId("topSubcategories").innerHTML = rows
     .map((row, index) => {
       const name = labelValue(row.name, subcategoryLabels);
-      return `<li><b>${index + 1}</b><span title="${name}">${name}</span><strong>${formatMoney.format(row.sales)}</strong></li>`;
+      return `<li data-tip="${name}&#10;مبيعات: ${formatMoney.format(row.sales)}"><b>${index + 1}</b><span title="${name}">${name}</span><strong>${formatMoney.format(row.sales)}</strong></li>`;
     })
     .join("");
 }
@@ -505,5 +528,38 @@ function triggerReaction() {
   document.querySelectorAll(".kpi-card, .panel").forEach((target) => {
     target.classList.remove("is-reacting");
     window.requestAnimationFrame(() => target.classList.add("is-reacting"));
+  });
+}
+
+function initTooltips() {
+  const tip = byId("chartTooltip");
+  if (!tip) return;
+  const positionTip = (el, evt) => {
+    const pad = 14;
+    const r = el.getBoundingClientRect();
+    let x = evt.clientX + pad;
+    let y = evt.clientY + pad;
+    if (x + r.width > window.innerWidth) x = evt.clientX - r.width - pad;
+    if (y + r.height > window.innerHeight) y = evt.clientY - r.height - pad;
+    el.style.left = `${Math.max(4, x)}px`;
+    el.style.top = `${Math.max(4, y)}px`;
+  };
+  const show = (html, evt) => {
+    tip.textContent = html;
+    tip.classList.add("is-visible");
+    positionTip(tip, evt);
+  };
+  const hide = () => tip.classList.remove("is-visible");
+  document.addEventListener("mouseover", (e) => {
+    const t = e.target.closest("[data-tip]");
+    if (t) show(t.getAttribute("data-tip"), e);
+  });
+  document.addEventListener("mousemove", (e) => {
+    const t = e.target.closest("[data-tip]");
+    if (t) positionTip(tip, e);
+  });
+  document.addEventListener("mouseout", (e) => {
+    const t = e.target.closest("[data-tip]");
+    if (t) hide();
   });
 }

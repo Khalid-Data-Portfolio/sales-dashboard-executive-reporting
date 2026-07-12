@@ -370,7 +370,7 @@ button {
 
 .kpi-grid {
   display: grid;
-  grid-template-columns: repeat(6, minmax(0, 1fr));
+  grid-template-columns: repeat(7, minmax(0, 1fr));
   gap: 8px;
   margin-bottom: 10px;
 }
@@ -929,6 +929,38 @@ button {
   100% {
     transform: translateY(0);
   }
+}
+
+.chart-tooltip {
+  position: fixed;
+  z-index: 60;
+  pointer-events: none;
+  max-width: 250px;
+  padding: 8px 10px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: rgba(7, 24, 39, 0.96);
+  color: var(--text);
+  font-size: 0.74rem;
+  line-height: 1.55;
+  white-space: pre-line;
+  box-shadow: var(--shadow);
+  opacity: 0;
+  transition: opacity 120ms ease;
+}
+
+.chart-tooltip.is-visible {
+  opacity: 1;
+}
+
+.dot {
+  cursor: pointer;
+  fill: var(--blue);
+  transition: r 120ms ease;
+}
+
+.dot:hover {
+  r: 6;
 }
 
 @media (max-width: 1100px) {
